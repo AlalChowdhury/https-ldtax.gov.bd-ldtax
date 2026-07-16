@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ভূমি উন্নয়ন কর পরিশোধ রসিদ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    background: #eef1f4;
+    margin: 0;
+    padding: 0;
+    color: #1a1a1a;
+  }
+
+  /* ===== Top green date bar ===== */
+  .date-bar {
+    background: #1a7a3c;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    position: relative;
+  }
+  .lang-toggle {
+    position: absolute;
+    right: 16px;
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .lang-toggle span {
+    padding: 3px 10px;
+  }
+  .lang-toggle .active {
+    background: #fff;
+    color: #1a7a3c;
+  }
+  .lang-toggle .inactive {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+
+  /* ===== Header (logo + nav) ===== */
+  .site-header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .logo {
+    width: 46px;
+    height: 46px;
+    border: 2.5px solid #f5a300;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #f5a300;
+  }
+  .brand .brand-text {
+    font-size: 21px;
+    font-weight: 700;
+    color: #1a3a1a;
+  }
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2a2a2a;
+  }
+  .main-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .login-btn {
+    background: #1a7a3c;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: default;
+  }
+  .hamburger {
+    display: none;
+    font-size: 22px;
+    color: #1a3a1a;
+    cursor: pointer;
+  }
+
+  @media (max-width: 720px) {
+    .main-nav { display: none; }
+    .hamburger { display: block; }
+    .brand .brand-text { font-size: 17px; }
+    .brand .logo { width: 38px; height: 38px; font-size: 19px; }
+  }
+
+  /* ===== Page body ===== */
+  .page-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 22px 16px 60px 16px;
+  }
+  .print-btn {
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 9px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin: 0 auto 22px auto;
+  }
+  .print-btn:hover { background: #0d47a1; }
+
+  .success-banner {
+    max-width: 900px;
+    margin: 0 auto 18px auto;
+    background: #eaf6ea;
+    border-left: 4px solid #2e9e44;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .receipt {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #999;
+    padding: 24px 28px;
+  }
+  .receipt-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .receipt-header .left { font-weight: 600; }
+  .receipt-header .right { text-align: right; }
+  .main-title {
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+    margin: 8px 0 2px 0;
+  }
+  .sub-title {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .info-line {
+    font-size: 14.5px;
+    margin: 6px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .info-line b { font-weight: 600; white-space: nowrap; }
+  .field {
+    display: flex;
+    align-items: baseline;
+    flex: 1;
+    gap: 4px;
+    min-width: 150px;
+  }
+  .fill {
+    flex: 1;
+    border-bottom: 1px dotted #333;
+    padding-bottom: 2px;
+    padding-left: 4px;
+  }
+  .section-title {
+    text-align: center;
+    font-weight: 700;
+    text-decoration: underline;
+    margin: 18px 0 8px 0;
+    font-size: 15.5px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  table.dashed th, table.dashed td {
+    border: 1px dashed #555;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  table.total-row td {
+    border: 1px dashed #555;
+    padding: 6px 8px;
+  }
+  th {
+    background: #f7f7f7;
+    font-weight: 600;
+  }
+  .collect-table th, .collect-table td {
+    border: 1px solid #333;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 14.5px;
+  }
+  .total-words {
+    margin-top: 14px;
+    font-size: 14.5px;
+  }
+  .footer-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  .footer-left p { margin: 4px 0; }
+  .date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.3;
+  }
+  .frac-top {
+    border-bottom: 2px solid #333;
+    padding: 0 4px 3px 4px;
+  }
+  .frac-bottom {
+    padding: 3px 4px 0 4px;
+  }
+  .qr-placeholder {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    text-align: center;
+    color: #666;
+  }
+  .footer-right {
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .date-bar, .site-header, .print-btn, .success-banner { display: none !important; }
+    .receipt { border: none; padding: 0; }
+    .page-body { padding: 0; max-width: 100%; }
+    @page { margin: 12mm; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top green date bar -->
+  <div class="date-bar">
+    <span id="topDateText">শুক্রবার, ২ শ্রাবণ ১৪৩৩, ১৭ জুলাই ২০২৬</span>
+    <span class="lang-toggle">
+      <span class="active">বাং</span>
+      <span class="inactive">EN</span>
+    </span>
+  </div>
+
+  <!-- Site header -->
+  <div class="site-header">
+    <div class="brand">
+      <div class="logo">৳</div>
+      <div class="brand-text">ভূমি উন্নয়ন কর</div>
+    </div>
+    <div class="hamburger">☰</div>
+    <nav class="main-nav">
+      <a href="#">হোম</a>
+      <a href="#">মন্ত্রণালয়/ বিভাগ ▾</a>
+      <a href="#">ভূমিসেবা ফর্ম</a>
+      <a href="#">গার্ড ফাইল ▾</a>
+    </nav>
+    <button class="login-btn">লগইন ▾</button>
+  </div>
+
+  <div class="page-body">
+
+    <button class="print-btn" onclick="window.print()">🖶 প্রিন্ট</button>
+
+    <div class="success-banner">
+      অভিনন্দন! কর প্রদান সফল হয়েছে। "দাখিলা" মেনু থেকে দাখিলাটি সংগ্রহ করতে পারবেন।
+    </div>
+
+    <div class="receipt">
+
+      <div class="receipt-header">
+        <div class="left">
+          বাংলাদেশ ফরম নং ১০৭৭<br>
+          (সংশোধিত)
+        </div>
+        <div class="right">
+          (পরিশিষ্ট: ৩৮)<br>
+          ক্রমিক নং ৩৬৭৭২৩০১৪৮৯৩
+        </div>
+      </div>
+
+      <div class="main-title">ভূমি উন্নয়ন কর পরিশোধ রসিদ</div>
+      <div class="sub-title">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</div>
+
+      <div class="info-line">
+        <span class="field"><b>সিটি কর্পোরেশন/পৌর/ইউনিয়ন ভূমি অফিসের নাম:</b><span class="fill">নবীগঞ্জ সদর ইউনিয়ন ভূমি অফিস</span></span>
+      </div>
+      <div class="info-line">
+        <span class="field"><b>মৌজার ও জে. এল. নং:</b><span class="fill">তিমিরপুর - ১৬৫</span></span>
+        <span class="field"><b>উপজেলা/থানা:</b><span class="fill">নবীগঞ্জ</span></span>
+        <span class="field"><b>জেলা:</b><span class="fill">হবিগঞ্জ</span></span>
+      </div>
+      <div class="info-line">
+        <span class="field"><b>২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর (রেজিঃ সাঃ নং):</b><span class="fill">৪৮০</span></span>
+      </div>
+      <div class="info-line">
+        <span class="field"><b>খতিয়ান নং:</b><span class="fill">৯০৫</span></span>
+      </div>
+
+      <div class="section-title">মালিকের বিবরণ</div>
+      <table class="dashed">
+        <thead>
+          <tr>
+            <th style="width:8%">ক্রমঃ</th>
+            <th>মালিকের নাম</th>
+            <th style="width:20%">মালিকের অংশ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>১</td>
+            <td style="text-align:left">শফিক মিয়া চৌধুরী</td>
+            <td>০.৫০০</td>
+          </tr>
+          <tr>
+            <td>২</td>
+            <td style="text-align:left">সোনা মিয়া চৌধুরী</td>
+            <td>০.৫০০</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">জমির বিবরণ</div>
+      <table class="dashed">
+        <thead>
+          <tr>
+            <th>ক্রমঃ</th>
+            <th>দাগ নং</th>
+            <th>জমির শ্রেণী</th>
+            <th>জমির পরিমাণ (শতক)</th>
+            <th style="border:none; width:3%; background:#fff;"></th>
+            <th>ক্রমঃ</th>
+            <th>দাগ নং</th>
+            <th>জমির শ্রেণী</th>
+            <th>জমির পরিমাণ (শতক)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>১</td>
+            <td>২২৬</td>
+            <td>চারা</td>
+            <td>৬.০০</td>
+            <td style="border:none; background:#fff;"></td>
+            <td>২</td>
+            <td>১৯৮/১২৮৮</td>
+            <td>চারা</td>
+            <td>৭.০০</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="total-row">
+        <tr>
+          <td style="width:70%; text-align:center; font-weight:600;">সর্বমোট জমি (শতক)</td>
+          <td style="text-align:center;">১৩.০০</td>
+        </tr>
+      </table>
+
+      <div class="section-title">আদায়ের বিবরণ</div>
+      <table class="collect-table">
+        <thead>
+          <tr>
+            <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
+            <th>গত তিন বৎসরের বকেয়া</th>
+            <th>বকেয়ার সুদ ও ক্ষতিপূরণ</th>
+            <th>হাল দাবি</th>
+            <th>মোট দাবি</th>
+            <th>মোট আদায়</th>
+            <th>মোট বকেয়া</th>
+            <th>মন্তব্য</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>৫,১৩৭</td>
+            <td>৪,৭৯৮</td>
+            <td>৩,৩৯৬</td>
+            <td>৩,১৫১</td>
+            <td>১৬,৪৮২</td>
+            <td>১৬,৪৮২</td>
+            <td>০</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total-words">
+        <b>সর্বমোট (কথায়):</b> ষোল হাজার চার শত বিরাশি টাকা মাত্র।
+      </div>
+
+      <div style="margin-top:10px; font-size:14px;">
+        <b>নোট:</b> সর্বশেষ কর পরিশোধের সাল - ১৪০৫ থেকে ১৪৩২
+      </div>
+
+      <div class="footer-note">
+        <div class="footer-left">
+          <p><b>চালান নং ঃ</b></p>
+          <p class="date-row">
+            <b>তারিখ :</b>
+            <span class="fraction">
+              <span class="frac-top" id="footerBanglaDate">২ শ্রাবণ ১৪৩৩</span>
+              <span class="frac-bottom" id="footerEnglishDate">১৭ জুলাই, ২০২৬</span>
+            </span>
+          </p>
+        </div>
+        <div class="qr-placeholder">QR কোড</div>
+        <div class="footer-right">
+          এই দাখিলা ইলেকট্রনিকভাবে তৈরি করা হয়েছে।<br>
+          কোন স্বাক্ষর প্রয়োজন নেই।
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // ===== Bengali digit / name helpers =====
+    const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    function toBnNumber(n) {
+      return String(n).split('').map(ch => (ch >= '0' && ch <= '9') ? bnDigits[ch] : ch).join('');
+    }
+    const bnWeekdays = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    const bnMonths = ['বৈশাখ','জ্যৈষ্ঠ','আষাঢ়','শ্রাবণ','ভাদ্র','আশ্বিন','কার্তিক','অগ্রহায়ণ','পৌষ','মাঘ','ফাল্গুন','চৈত্র'];
+    const gregMonthsBn = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+
+    function isGregorianLeap(y) {
+      return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0);
+    }
+
+    // Converts a JS Date to the official Bangladesh (reformed) Bangla calendar date.
+    // Poyla Boishakh is fixed on 14 April every Gregorian year.
+    function toBanglaDate(date) {
+      const y = date.getFullYear();
+      // Find the Gregorian year (G) of the most recent 14 April on/before "date"
+      const apr14ThisYear = new Date(y, 3, 14); // month index 3 = April
+      let G = (date >= apr14ThisYear) ? y : y - 1;
+      const poylaBoishakh = new Date(G, 3, 14);
+
+      // Days elapsed since Poyla Boishakh (0-based)
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const dayIndex = Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()) -
+                                    new Date(poylaBoishakh.getFullYear(), poylaBoishakh.getMonth(), poylaBoishakh.getDate())) / msPerDay);
+
+      // Falgun (11th month) length depends on whether Feb of (G+1) is a leap Feb
+      const falgunLen = isGregorianLeap(G + 1) ? 31 : 30;
+      const monthLens = [31,31,31,31,31,30,30,30,30,30, falgunLen, 30];
+
+      let remaining = dayIndex;
+      let monthIdx = 0;
+      for (; monthIdx < 12; monthIdx++) {
+        if (remaining < monthLens[monthIdx]) break;
+        remaining -= monthLens[monthIdx];
+      }
+      const banglaDay = remaining + 1;
+      const banglaYear = G - 593;
+
+      return {
+        day: banglaDay,
+        month: bnMonths[monthIdx],
+        year: banglaYear
+      };
+    }
+
+    function updateDates() {
+      const now = new Date();
+      const weekday = bnWeekdays[now.getDay()];
+      const bd = toBanglaDate(now);
+
+      const banglaStr = `${toBnNumber(bd.day)} ${bd.month} ${toBnNumber(bd.year)}`;
+      const gregDay = toBnNumber(now.getDate());
+      const gregMonth = gregMonthsBn[now.getMonth()];
+      const gregYear = toBnNumber(now.getFullYear());
+      const gregStr = `${gregDay} ${gregMonth}, ${gregYear}`;
+
+      const topEl = document.getElementById('topDateText');
+      if (topEl) topEl.textContent = `${weekday}, ${banglaStr}, ${gregStr}`;
+
+      const footerBn = document.getElementById('footerBanglaDate');
+      if (footerBn) footerBn.textContent = banglaStr;
+
+      const footerEn = document.getElementById('footerEnglishDate');
+      if (footerEn) footerEn.textContent = gregStr;
+    }
+
+    updateDates();
+  </script>
+
+</body>
+</html>
